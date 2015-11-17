@@ -1,3 +1,4 @@
 **/*.pyc
 dhcp-log.txt
 doorguard/settings_private.py
+.idea
