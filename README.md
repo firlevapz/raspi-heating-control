@@ -1,6 +1,5 @@
-# raspi-doorguard
-Project for having a raspberry Pi watching the state of the entrance door. Backend organized with python and django.
-
-A simple reed-relay magnetic switch checks the status of the door. 
-Raspberry Pi is configured as a DHCP-server, which checks in the local LAN, if an authorized mobile-phone is present, 
-if not, the alarm is triggered (can be either a siren or just sending an email). 
+# raspi-heating-control
+Project for having a webinterface to check the temperature and control a pellets-heater with raspberry pi. 
+The raspberry pi is integrated in the LAN and there are some temperature sensors connected. The heater 
+is controlled via a relay. 
+The frontend is created with python/django and made accessible public through reverse-dns. 
