@@ -77,7 +77,7 @@
 
       <div class="row">
         <div class="col-sm-6">
-          <h3>Device Logs</h3>
+          <h3>Heating Logs</h3>
             <div class="list-group">
                 {% for log in last_logs %}
                     <span class="list-group-item {% if log.status %} list-group-item-success{% else %} list-group-item-warning{% endif %}">
@@ -89,7 +89,7 @@
             </div>
         </div><!-- /.col-sm-4 -->
         <div class="col-sm-6">
-          <h3>Door Logs</h3>
+          <h3>Temperature Logs</h3>
           <div class="list-group">
               {% for d in last_door_opened %}
                 <span class="list-group-item ">

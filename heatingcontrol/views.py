@@ -5,18 +5,6 @@ from django.contrib.auth.decorators import login_required
 from .models import Device, Log, Config
 
 def index(request):
-    last_logs = Log.objects.filter(log_type__exact='DE')[:10]
-    last_door_opened = Log.objects.filter(log_type__exact='DO', status=False)[:10]
-    devices = Device.objects.all()
-    try:
-        email_alarm = True if Config.objects.get(config_type='ALARM', name='email', enabled=True) else False
-    except Config.DoesNotExist:
-        email_alarm = False
-
-    try:
-        sound_alarm = True if Config.objects.get(config_type='ALARM', name='sound', enabled=True) else False
-    except Config.DoesNotExist:
-        sound_alarm = False
 
     return render_to_response(
         'index.html',
