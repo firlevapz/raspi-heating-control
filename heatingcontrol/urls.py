@@ -20,5 +20,6 @@ from . import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='index'),
-    url(r'^toggle_alarm/(?P<alarm_name>[A-Za-z0-9]+)/$', views.toggle_alarm, name='toggle-alarm'),
+    url(r'^csv_temp/(?P<sensor_id>[a-z0-9]+)/$', views.csv_temperatures, name='csv-temperatures'),
+    url(r'^toggle_oven/$', views.toggle_oven, name='toggle-oven'),
 ]

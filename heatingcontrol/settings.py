@@ -49,6 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'heatingcontrol.middleware.MobileClientLoginMiddleware',
 )
 
 ROOT_URLCONF = 'heatingcontrol.urls'
