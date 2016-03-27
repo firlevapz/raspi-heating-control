@@ -24,6 +24,9 @@ class Sensor(models.Model):
     def __str__(self):
         return self.name
 
+    def current_temperature(self):
+        return self.temperature_set.order_by('-created__timestamp')[0]
+
 
 class Timestamp(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)

@@ -1,13 +1,16 @@
 import csv
+import time
 from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-
+from django.utils import timezone
 from .models import Config, Sensor, Temperature, Timestamp
 
 def index(request):
-    oven = Config.objects.get(name__exact='ofen')
+    [oven, created] = Config.objects.get_or_create(name__exact='ofen')
     sensors = Sensor.objects.all()
+    end_window = time.mktime(time.localtime())*1000
+    start_window = end_window - 1000*3600*3
     return render_to_response(
         'index.html',
         locals()
@@ -30,9 +33,9 @@ def csv_temperatures(request, sensor_id):
     header.extend(['{}'.format(sensor.name) for sensor in sensors])
     writer.writerow(header)
     
-    timestamps = Timestamp.objects.all()
+    timestamps = Timestamp.objects.all().order_by('timestamp')
     for t in timestamps:
-        line = [t.timestamp.strftime('%Y/%m/%d %H:%M')]
+        line = [timezone.localtime(t.timestamp).strftime('%Y/%m/%d %H:%M')]
         line.extend([temp.value for temp in t.temperature_set.filter(sensor__in=sensors).order_by('sensor__name') if temp is not None])
         if len(line) > 1:
             writer.writerow(line)

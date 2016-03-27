@@ -58,7 +58,7 @@
 	
 	   <h3><span class="label label-{% if oven.enabled %}success{% else %}danger{% endif %}">Heizung ist {% if oven.enabled %}an{% else %}aus{% endif %}.</span>
 	{% if request.user.is_authenticated %}  
-	<button type="button" class="btn btn-lg {% if oven.enabled %}btn-danger{% else %}btn-success{% endif %}" data-toggle="modal" data-target="#askStart">Heizung {% if oven.enabled %}ausschalten{% else %}einschalten{% endif %}.</button>
+	<button type="button" class="btn btn-md {% if oven.enabled %}btn-danger{% else %}btn-success{% endif %}" data-toggle="modal" data-target="#askStart">Heizung {% if oven.enabled %}ausschalten{% else %}einschalten{% endif %}.</button>
 	{% endif %}
 	   </h3>
 
@@ -87,8 +87,13 @@
 
       <div class="row">
         <div class="col-sm-12 col-lg-6">
-          <h3>Temperatur</h3>
+          <h4>Temperatur {% for s in sensors %}<span class="label label-default">{{ s.current_temperature }}°C </span>&nbsp;{% endfor %}</h4>
              <div id="tempdiv" class="tempdiv" style="width:100%"></div>
+		Angezeigte Sensoren: 
+  		{% for s in sensors %}
+		      <input type=checkbox id="{{ forloop.counter0 }}" onClick="changeVis(this)" checked>
+      			<label for="{{ forloop.counter0 }}">{{ s.name }}</label>
+		{% endfor %}
         </div>
       </div>
 
@@ -109,6 +114,7 @@
     document.getElementById("tempdiv"),
     "{% url 'csv-temperatures' 'all' %}",
     {
+        dateWindow: [{{ start_window }}, {{ end_window }}],
         strokeWidth: 1.5,
         drawPoints: true,
         legend: 'always',
@@ -116,6 +122,11 @@
         showRangeSelector: true
     }
   );
+
+      function changeVis(el) {
+        g.setVisibility(parseInt(el.id), el.checked);
+      }
+    </script>
 </script>
   </body>
 </html>

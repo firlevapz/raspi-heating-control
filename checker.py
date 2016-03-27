@@ -17,14 +17,19 @@ django.setup()
 
 from heatingcontrol.models import Config, Sensor, Temperature, Timestamp
 
-check_pin = 7   # GPIO-Pin nr for heating control
+oven_pin = 11
 
 config_reload = 10 # seconds how often reload the config
 
 cleanup_wait = 3600*24 # cleanup once a day
 temp_read_wait = 60*10  # each 10 minutes check for devices
+oven_check_wait = 60 # check for oven status each minute
 
 stop_threads = threading.Event()    # threading event to stop all threads
+
+# GPIO setup
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(oven_pin, GPIO.OUT)
 
 
 def read_temperature():
@@ -40,8 +45,13 @@ def read_temperature():
         time.sleep(temp_read_wait)
 
 
-def check_relay():
-    pass
+def check_oven():
+    while not stop_threads.isSet():
+        [oven, created] = Config.objects.get_or_create(name__exact='ofen')
+
+        GPIO.output(oven_pin, 0) if oven.enabled else GPIO.output(oven_pin, 1)
+
+        time.sleep(oven_check_wait)
 
 
 def cleanup():
@@ -58,7 +68,7 @@ if __name__ == '__main__':
     temp_thread.daemon = True
     temp_thread.start()
 
-    relay_thread = threading.Thread(target=check_relay)
+    relay_thread = threading.Thread(target=check_oven)
     relay_thread.daemon = True
     relay_thread.start()
 
