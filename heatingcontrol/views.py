@@ -10,7 +10,7 @@ def index(request):
     [oven, created] = Config.objects.get_or_create(name__exact='ofen')
     sensors = Sensor.objects.all()
     end_window = time.mktime(time.localtime())*1000
-    start_window = end_window - 1000*3600*3
+    start_window = end_window - 1000*3600*6
     return render_to_response(
         'index.html',
         locals()
@@ -36,8 +36,15 @@ def csv_temperatures(request, sensor_id):
     timestamps = Timestamp.objects.all().order_by('timestamp')
     for t in timestamps:
         line = [timezone.localtime(t.timestamp).strftime('%Y/%m/%d %H:%M')]
+        #for sensor in sensors:
+        #    try:
+        #        temp = t.temperature_set.get(sensor=sensor)
+        #        line.append(temp.value)
+        #    except:
+        #        line.append('NaN')
         line.extend([temp.value for temp in t.temperature_set.filter(sensor__in=sensors).order_by('sensor__name') if temp is not None])
-        if len(line) > 1:
+
+        if len(line) == len(sensors)+1:
             writer.writerow(line)
 
     return response

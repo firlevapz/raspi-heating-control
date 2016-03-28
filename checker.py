@@ -40,7 +40,9 @@ def read_temperature():
         for s in sensors:
             sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, s.w1_id)
             temp = sensor.get_temperature()
-
+            while temp == 85:
+                temp = sensor.get_temperature()
+                time.sleep(1)
             new_temp = Temperature.objects.create(sensor=s, value=temp, created=timestamp)
         time.sleep(temp_read_wait)
 
