@@ -33,7 +33,8 @@ def csv_temperatures(request, sensor_id):
     header.extend(['{}'.format(sensor.name) for sensor in sensors])
     writer.writerow(header)
     
-    timestamps = Timestamp.objects.all().order_by('timestamp')
+    latest_timestamp = timezone.now() - timezone.timedelta(days=4)
+    timestamps = Timestamp.objects.filter(timestamp__gt=latest_timestamp).order_by('timestamp')
     for t in timestamps:
         line = [timezone.localtime(t.timestamp).strftime('%Y/%m/%d %H:%M')]
         #for sensor in sensors:
