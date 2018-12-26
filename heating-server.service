@@ -1,0 +1,8 @@
+[Unit]
+Description=Smart Heating Server
+
+[Service]
+ExecStart=/home/pi/raspi-heating-control/server.sh
+
+[Install]
+WantedBy=multi-user.target

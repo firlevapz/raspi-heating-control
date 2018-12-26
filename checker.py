@@ -49,7 +49,7 @@ def read_temperature():
 
 def check_oven():
     while not stop_threads.isSet():
-        [oven, created] = Config.objects.get_or_create(name__exact='ofen')
+        oven, _ = Config.objects.get_or_create(name__exact='ofen')
 
         GPIO.output(oven_pin, 0) if oven.enabled else GPIO.output(oven_pin, 1)
 
@@ -66,6 +66,10 @@ def cleanup():
 
 
 if __name__ == '__main__':
+    oven, _ = Config.objects.get_or_create(name__exact='ofen')
+    oven.enabled = False
+    oven.save()
+
     temp_thread = threading.Thread(target=read_temperature)
     temp_thread.daemon = True
     temp_thread.start()
