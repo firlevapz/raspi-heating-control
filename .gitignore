@@ -1,4 +1,5 @@
 **/*.pyc
+db.sqlite3
 dhcp-log.txt
 doorguard/settings_private.py
 .idea
