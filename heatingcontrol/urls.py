@@ -18,7 +18,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url('admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     url(r'^csv_temp/(?P<sensor_id>[a-z0-9]+)/$', views.csv_temperatures, name='csv-temperatures'),
     url(r'^toggle_oven/$', views.toggle_oven, name='toggle-oven'),

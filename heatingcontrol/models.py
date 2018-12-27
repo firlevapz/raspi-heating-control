@@ -39,8 +39,8 @@ class Timestamp(models.Model):
 
 
 class Temperature(models.Model):
-    sensor = models.ForeignKey(Sensor)
-    created = models.ForeignKey(Timestamp, null=True, blank=True)
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    created = models.ForeignKey(Timestamp, on_delete=models.SET_NULL, null=True, blank=True)
     value = models.FloatField()
 
     class Meta:
