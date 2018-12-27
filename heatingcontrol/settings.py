@@ -25,7 +25,7 @@ SECRET_KEY = '-q5v*r+ip406+v0lflvj3zrk+cmly#ay5i!ktsz*6(ma+^azr&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.0.10', 'sigrid.root.sx']
 
 
 # Application definition
